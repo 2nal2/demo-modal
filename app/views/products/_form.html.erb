@@ -1,0 +1,66 @@
+<%= form_with(model: product, local: true) do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+  </div>
+
+  <%= link_to 'Seleccionar categoria', "#", data: {toggle: "modal", target: "#my-modal"} %>
+
+
+<%= form.hidden_field :category_id, :id => "categoryId" %>
+
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<div class="modal fade" id="my-modal" title="My modal">
+  <div class="container white">
+    <div class="modal-header">
+      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+      <h3 id="myModalLabel">busqueda de categorias</h3>
+    </div>
+
+    <div>
+      <input type="text" id="myInput" onkeyup="searchCategory()" placeholder="Search for names..">
+
+      <table id="myTable">
+        <tr class="header">
+          <th style="width:10%;">id</th>
+          <th style="width:40%;">nombre</th>
+          <th style="width:20%;">descripcion</th>
+          <th style="width:20%;">accion</th>
+        </tr>
+        <% @categories.each do |categoria| %>
+          <tr>
+            <td><%= categoria.id %></td>
+            <td><%= categoria.name %></td>
+            <td><%= categoria.description %></td>
+            <td><button onclick="setCategory('<%= categoria.id %>')">Seleccionar</button></td>
+          </tr>
+        <% end%>
+      </table>
+    </div>
+  </div>
+  
+  
+</div>
